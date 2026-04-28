@@ -1,0 +1,64 @@
+name: Autograding Tests
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+
+permissions:
+  checks: write
+  actions: read
+  contents: read
+
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore lab04.sln
+
+      - name: Build project
+        id: build
+        run: |
+          dotnet build --no-restore lab04.sln
+          echo "Build completed"
+
+      - name: Run application
+        id: run
+        timeout-minutes: 2
+        run: |
+          # Запускаємо програму з вводом '7' для виходу
+          echo "7" | dotnet run --no-build  lab04.sln
+          echo "Application ran successfully"
+
+      - name: Check for NotImplementedException
+        id: check-implementation
+        run: |
+          if grep -r "throw new NotImplementedException" --include="*.cs" .; then
+            echo "Found NotImplementedException in code"
+            exit 1
+          fi
+          echo "No NotImplementedException found"
+
+      - name: Final Score
+        id: run_test
+        run: |
+          if [ "${{ steps.build.outcome }}" == "success" ] && \
+             [ "${{ steps.run.outcome }}" == "success" ] && \
+             [ "${{ steps.check-implementation.outcome }}" == "success" ]; then
+            echo "Points: 15/15"
+            exit 0
+          else
+            echo "Points: 0/15"
+            exit 1
+          fi

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>City Network</title>
+<style>
+body { margin: 0; font-family: Arial, sans-serif; }
+#graph { width: 100vw; height: 100vh; }
+</style>
+<script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+</head>
+<body>
+<div id="graph"></div>
+<script>
+var nodes = new vis.DataSet([
+  { id: 'Kyiv', label: 'Kyiv', color: 'lightblue', shape: 'circle', font: { size: 16 } },
+  { id: 'Lviv', label: 'Lviv', color: 'lightblue', shape: 'circle', font: { size: 16 } },
+  { id: 'Odesa', label: 'Odesa', color: 'lightblue', shape: 'circle', font: { size: 16 } },
+  { id: 'Kharkiv', label: 'Kharkiv', color: 'lightblue', shape: 'circle', font: { size: 16 } },
+  { id: 'Dnipro', label: 'Dnipro', color: 'lightblue', shape: 'circle', font: { size: 16 } },
+  { id: 'Vinnytsia', label: 'Vinnytsia', color: 'lightblue', shape: 'circle', font: { size: 16 } },
+  { id: 'Chernihiv', label: 'Chernihiv', color: 'lightblue', shape: 'circle', font: { size: 16 } },
+  { id: 'Zaporizhzhia', label: 'Zaporizhzhia', color: 'lightblue', shape: 'circle', font: { size: 16 } },
+]);
+var edges = new vis.DataSet([
+  { from: 'Kyiv', to: 'Lviv', label: '540 km', color: { color: '#666' }, width: 2, font: { size: 14, align: 'middle' } },
+  { from: 'Kyiv', to: 'Odesa', label: '475 km', color: { color: '#666' }, width: 2, font: { size: 14, align: 'middle' } },
+  { from: 'Kyiv', to: 'Kharkiv', label: '480 km', color: { color: '#666' }, width: 2, font: { size: 14, align: 'middle' } },
+  { from: 'Kyiv', to: 'Dnipro', label: '480 km', color: { color: '#666' }, width: 2, font: { size: 14, align: 'middle' } },
+  { from: 'Kyiv', to: 'Vinnytsia', label: '270 km', color: { color: '#666' }, width: 2, font: { size: 14, align: 'middle' } },
+  { from: 'Kyiv', to: 'Chernihiv', label: '145 km', color: { color: '#666' }, width: 2, font: { size: 14, align: 'middle' } },
+  { from: 'Lviv', to: 'Vinnytsia', label: '360 km', color: { color: '#666' }, width: 2, font: { size: 14, align: 'middle' } },
+  { from: 'Lviv', to: 'Odesa', label: '790 km', color: { color: '#666' }, width: 2, font: { size: 14, align: 'middle' } },
+  { from: 'Odesa', to: 'Vinnytsia', label: '430 km', color: { color: '#666' }, width: 2, font: { size: 14, align: 'middle' } },
+  { from: 'Odesa', to: 'Dnipro', label: '550 km', color: { color: '#666' }, width: 2, font: { size: 14, align: 'middle' } },
+  { from: 'Odesa', to: 'Zaporizhzhia', label: '480 km', color: { color: '#666' }, width: 2, font: { size: 14, align: 'middle' } },
+  { from: 'Kharkiv', to: 'Dnipro', label: '215 km', color: { color: '#666' }, width: 2, font: { size: 14, align: 'middle' } },
+  { from: 'Kharkiv', to: 'Chernihiv', label: '330 km', color: { color: '#666' }, width: 2, font: { size: 14, align: 'middle' } },
+  { from: 'Dnipro', to: 'Zaporizhzhia', label: '85 km', color: { color: '#666' }, width: 2, font: { size: 14, align: 'middle' } },
+  { from: 'Dnipro', to: 'Vinnytsia', label: '510 km', color: { color: '#666' }, width: 2, font: { size: 14, align: 'middle' } },
+]);
+var container = document.getElementById('graph');
+var data = { nodes: nodes, edges: edges };
+var options = {
+  physics: {
+    enabled: true,
+    stabilization: { iterations: 200 },
+    barnesHut: { gravitationalConstant: -8000, springLength: 250, springConstant: 0.04 }
+  },
+  edges: { smooth: { type: 'continuous' } },
+  nodes: { size: 30 }
+};
+var network = new vis.Network(container, data, options);
+</script>
+</body>
+</html>

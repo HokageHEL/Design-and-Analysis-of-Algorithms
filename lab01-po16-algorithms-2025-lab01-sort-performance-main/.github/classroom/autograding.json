@@ -1,0 +1,14 @@
+{
+  "tests": [
+    {
+      "name": "Lab01 Execution Test",
+      "setup": "",
+      "run": "dotnet run --project Lab01SortPerformance.csproj",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 30,
+      "points": 5
+    }
+  ]
+}

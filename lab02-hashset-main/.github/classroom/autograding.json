@@ -1,0 +1,14 @@
+{
+  "tests": [
+    {
+      "name": "Build and Run Test",
+      "setup": "",
+      "run": "cd HashSetLab && dotnet build && dotnet run --project HashSetLab.csproj",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 10,
+      "points": 15
+    }
+  ]
+}

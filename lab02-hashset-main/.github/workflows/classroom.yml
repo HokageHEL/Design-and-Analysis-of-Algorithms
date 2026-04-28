@@ -1,0 +1,40 @@
+name: Autograding Tests
+on:
+  - push
+  - workflow_dispatch
+  - repository_dispatch
+
+permissions:
+  checks: write
+  actions: read
+  contents: read
+
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Build and Run Test
+        id: build-run-test
+        uses: classroom-resources/autograding-command-grader@v1
+        with:
+          test-name: Build and Run Test
+          setup-command: ''
+          command: cd HashSetLab && dotnet build && dotnet run --project HashSetLab.csproj
+          timeout: 10
+          max-score: 15
+
+      - name: Autograding Reporter
+        uses: classroom-resources/autograding-grading-reporter@v1
+        env:
+          BUILD-RUN-TEST_RESULTS: "${{steps.build-run-test.outputs.result}}"
+        with:
+          runners: build-run-test
